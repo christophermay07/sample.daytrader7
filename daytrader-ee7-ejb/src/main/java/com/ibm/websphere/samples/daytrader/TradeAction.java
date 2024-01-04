@@ -32,8 +32,6 @@ import javax.naming.InitialContext;
 import com.ibm.websphere.samples.daytrader.beans.MarketSummaryDataBean;
 import com.ibm.websphere.samples.daytrader.beans.RunStatsDataBean;
 import com.ibm.websphere.samples.daytrader.direct.TradeDirect;
-import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBLocal;
-import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBRemote;
 import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;
 import com.ibm.websphere.samples.daytrader.entities.AccountProfileDataBean;
 import com.ibm.websphere.samples.daytrader.entities.HoldingDataBean;

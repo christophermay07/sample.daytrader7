@@ -48,6 +48,7 @@ import javax.persistence.criteria.Root;
 import javax.transaction.RollbackException;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
+import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.beans.MarketSummaryDataBean;
 import com.ibm.websphere.samples.daytrader.beans.RunStatsDataBean;
 import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;
@@ -63,7 +64,7 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
+public class TradeSLSBBean implements TradeServices {
 
     @Resource(name = "jms/QueueConnectionFactory", authenticationType = javax.annotation.Resource.AuthenticationType.APPLICATION)
     private QueueConnectionFactory queueConnectionFactory;
@@ -433,7 +434,7 @@ public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
         quote.setVolume(quote.getVolume() + sharesTraded);
         entityManager.merge(quote);
 
-        context.getBusinessObject(TradeSLSBLocal.class).publishQuotePriceChange(quote, oldPrice, changeFactor, sharesTraded);
+        publishQuotePriceChange(quote, oldPrice, changeFactor, sharesTraded);
 
         return quote;
     }
