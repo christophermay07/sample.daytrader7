@@ -4,11 +4,33 @@
                              http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.wasdev.wlp.sample</groupId>
+    <groupId>com.redhat.consulting</groupId>
     <artifactId>daytrader7</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>WAS Liberty Sample - Java EE7 Benchmark Sample</name>
+    <version>quarkus</version>
+    <name>DayTrader - Java EE 7 to Quarkus Example</name>
+
+    <properties>
+        <quarkus.platform.version>3.5.1</quarkus.platform.version>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
+        <maven.compiler.release>11</maven.compiler.release>
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <skipITs>true</skipITs>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.quarkus.platform</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <licenses>
         <license>
