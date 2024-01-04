@@ -96,15 +96,15 @@ public class DTStreamer3MDB implements MessageListener {
                             " max: " +currentStats.getMaxSecs()+
                             " avg: " +currentStats.getAvgSecs() );
                 }
-                
+
                 // Fire message to Websocket Endpoint
                 // Limit Symbols that get sent with percentageToWebSocket (default 5%).
                 int symbolNumber = new Integer(message.getStringProperty("symbol").substring(2));
-                
+
                 if ( symbolNumber < TradeConfig.getMAX_QUOTES() * TradeConfig.getPercentSentToWebsocket() * 0.01) {
                 	jmsEvent.fire(message);
                 }
-                
+
             } else if (command.equalsIgnoreCase("ping")) {
                 if (Log.doTrace()) {
                     Log.trace("DTStreamer3MDB:onMessage  received ping command -- message: " + ((TextMessage) message).getText());

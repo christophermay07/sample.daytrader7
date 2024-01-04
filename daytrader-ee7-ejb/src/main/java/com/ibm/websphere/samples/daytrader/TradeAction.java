@@ -57,29 +57,28 @@ public class TradeAction implements TradeServices {
     private static final Integer marketSummaryLock = new Integer(0);
     private static long nextMarketSummary = System.currentTimeMillis();
     private static MarketSummaryDataBean cachedMSDB = MarketSummaryDataBean.getRandomInstance();
-        
+
     // make this static so the trade impl can be cached
     // - ejb3 mode is the only thing that really uses this
     // - can go back and update other modes to take advantage (ie. TradeDirect)
     private static TradeServices trade = null;
     private static TradeServices tradeLocal = null;
     private static TradeServices tradeRemote = null;
-    
+
     static {
-                      
         // Determine if JPA Shared L2 Class is enabled
         // Depends on the <shared-cache-mode> in the persistence.xml
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();  
-            InputStream is = loader.getResourceAsStream ("META-INF/persistence.xml"); 
-       
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            InputStream is = loader.getResourceAsStream ("META-INF/persistence.xml");
+
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
-           
+
             NodeList nList = doc.getElementsByTagName("shared-cache-mode");
-            
+
             if (nList.getLength() != 0 && ((Element)nList.item(0)).getTextContent().equals("NONE")) {
                 Log.log("JPA Shared L2 Cache disabled.");
             } else {
@@ -89,7 +88,6 @@ public class TradeAction implements TradeServices {
             Log.log("Unable to determine if JPA Shared L2 Cache is enabled or disabled.");
             e.printStackTrace();
         }
-                
     }
 
     public TradeAction() {
@@ -108,14 +106,13 @@ public class TradeAction implements TradeServices {
 
     private void createTrade() {
         if (TradeConfig.runTimeMode == TradeConfig.EJB3) {
-            try {	     
-            	
+            try {
             	if (tradeLocal == null && tradeRemote == null ) {
             		InitialContext context = new InitialContext();
             		tradeLocal = (TradeSLSBLocal) context.lookup("java:comp/env/ejb/TradeSLSBBean");
             		tradeRemote = (TradeSLSBRemote) context.lookup("java:comp/env/ejb/TradeSLSBBeanRemote");
             	}
-            	
+
             	// Determine local or remote interface.
             	if (!TradeConfig.useRemoteEJBInterface()) {
             		if (!(trade instanceof TradeSLSBLocal)) {
@@ -164,7 +161,7 @@ public class TradeAction implements TradeServices {
             }
             return trade.getMarketSummary();
         }
-                        
+
         if (TradeConfig.getMarketSummaryInterval() == 0) {
             return getMarketSummaryInternal();
         }
@@ -254,10 +251,8 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:buy", userID, symbol, new Double(quantity), new Integer(orderProcessingMode));
         }
         OrderDataBean orderData = trade.buy(userID, symbol, quantity, orderProcessingMode);
-        
-        // after the purchase or sell of a stock, update the stocks volume and
-        // price
 
+        // after the purchase or sell of a stock, update the stocks volume and price
         updateQuotePriceVolume(symbol, TradeConfig.getRandomPriceChangeFactor(), quantity);
 
         return orderData;
@@ -297,7 +292,6 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:sell", userID, holdingID, new Integer(orderProcessingMode));
         }
         OrderDataBean orderData = trade.sell(userID, holdingID, orderProcessingMode);
-       
 
         if (!orderData.getOrderStatus().equalsIgnoreCase("cancelled")) {
             updateQuotePriceVolume(orderData.getSymbol(), TradeConfig.getRandomPriceChangeFactor(), orderData.getQuantity());
@@ -361,7 +355,6 @@ public class TradeAction implements TradeServices {
 
     @Override
     public void orderCompleted(String userID, Integer orderID) throws Exception {
-
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:orderCompleted", userID, orderID);
         }
@@ -383,7 +376,7 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:getOrders", userID);
         }
         Collection<?> orderDataBeans = trade.getOrders(userID);
-        
+
         return orderDataBeans;
     }
 
@@ -400,9 +393,9 @@ public class TradeAction implements TradeServices {
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:getClosedOrders", userID);
         }
-        
+
         Collection<?> orderDataBeans =  trade.getClosedOrders(userID);
-        
+
         return orderDataBeans;
     }
 
@@ -421,10 +414,8 @@ public class TradeAction implements TradeServices {
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:createQuote", symbol, companyName, price);
         }
-      
-     
+
         return trade.createQuote(symbol, companyName, price);
-    
     }
 
     /**
@@ -437,9 +428,9 @@ public class TradeAction implements TradeServices {
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:getAllQuotes");
         }
-        
+
         return trade.getAllQuotes();
-        
+
     }
 
     /**
@@ -461,9 +452,9 @@ public class TradeAction implements TradeServices {
             }
             return new QuoteDataBean("Invalid symbol", "", 0.0, FinancialUtils.ZERO, FinancialUtils.ZERO, FinancialUtils.ZERO, FinancialUtils.ZERO, 0.0);
         }
-        
+
         QuoteDataBean quoteData = trade.getQuote(symbol);
-        
+
         return quoteData;
     }
 
@@ -504,9 +495,9 @@ public class TradeAction implements TradeServices {
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:getHoldings", userID);
         }
-        
+
         Collection<?> holdingDataBeans = trade.getHoldings(userID);
-        
+
         return holdingDataBeans;
     }
 
@@ -539,7 +530,7 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:getAccountData", userID);
         }
         AccountDataBean accountData = trade.getAccountData(userID);
-        
+
         return accountData;
     }
 
@@ -555,7 +546,7 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:getAccountProfileData", userID);
         }
         AccountProfileDataBean accountProfileData = trade.getAccountProfileData(userID);
-        
+
         return accountProfileData;
     }
 
@@ -572,7 +563,7 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:updateAccountProfile", accountProfileData);
         }
 
-        accountProfileData = trade.updateAccountProfile(accountProfileData);        
+        accountProfileData = trade.updateAccountProfile(accountProfileData);
         return accountProfileData;
     }
 
@@ -591,7 +582,7 @@ public class TradeAction implements TradeServices {
             Log.trace("TradeAction:login", userID, password);
         }
         AccountDataBean accountData = trade.login(userID, password);
-                
+
         return accountData;
     }
 
@@ -606,9 +597,8 @@ public class TradeAction implements TradeServices {
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:logout", userID);
         }
-    
+
         trade.logout(userID);
-        
     }
 
     /**
@@ -638,8 +628,8 @@ public class TradeAction implements TradeServices {
         if (Log.doActionTrace()) {
             Log.trace("TradeAction:register", userID, password, fullname, address, email, creditCard, openBalance);
         }
-       
-        return trade.register(userID, password, fullname, address, email, creditCard, openBalance);     
+
+        return trade.register(userID, password, fullname, address, email, creditCard, openBalance);
     }
 
     public AccountDataBean register(String userID, String password, String fullname, String address, String email, String creditCard, String openBalanceString)
@@ -658,7 +648,7 @@ public class TradeAction implements TradeServices {
     @Override
     public RunStatsDataBean resetTrade(boolean deleteAll) throws Exception {
         RunStatsDataBean runStatsData = trade.resetTrade(deleteAll);
-                
+
         return runStatsData;
     }
 }

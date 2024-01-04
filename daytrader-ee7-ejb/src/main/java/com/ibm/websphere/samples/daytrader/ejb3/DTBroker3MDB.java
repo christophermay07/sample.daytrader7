@@ -44,7 +44,7 @@ public class DTBroker3MDB implements MessageListener {
     private final MDBStats mdbStats;
     private int statInterval = 10000;
 
-    
+
     // TODO: Using local interface, make it configurable to use remote?
     @EJB
     private TradeSLSBLocal tradeSLSB;

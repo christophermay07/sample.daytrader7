@@ -17,9 +17,6 @@ package com.ibm.websphere.samples.daytrader.util;
 
 /**
  *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates. To enable and disable the creation of type
- * comments go to Window>Preferences>Java>Code Generation.
  */
 public class MDBStats extends java.util.HashMap<String, TimerStat> {
 
@@ -64,5 +61,4 @@ public class MDBStats extends java.util.HashMap<String, TimerStat> {
     public synchronized void reset() {
         clear();
     }
-
 }

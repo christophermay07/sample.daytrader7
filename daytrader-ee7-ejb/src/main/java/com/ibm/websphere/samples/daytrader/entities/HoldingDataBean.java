@@ -184,7 +184,7 @@ public class HoldingDataBean implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        
+
         if (!(object instanceof HoldingDataBean)) {
             return false;
         }

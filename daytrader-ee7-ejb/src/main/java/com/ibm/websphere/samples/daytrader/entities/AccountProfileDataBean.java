@@ -15,8 +15,6 @@
  */
 package com.ibm.websphere.samples.daytrader.entities;
 
-//import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -162,7 +160,7 @@ public class AccountProfileDataBean implements java.io.Serializable {
 
     @Override
     public boolean equals(Object object) {
-       
+
         if (!(object instanceof AccountProfileDataBean)) {
             return false;
         }

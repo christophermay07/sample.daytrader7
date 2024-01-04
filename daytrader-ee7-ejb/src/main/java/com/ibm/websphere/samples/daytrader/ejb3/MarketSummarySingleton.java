@@ -39,25 +39,24 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 
 @Singleton
 public class MarketSummarySingleton {
-    
+
     private MarketSummaryDataBean marketSummaryDataBean;
-    
+
     @PersistenceContext
     private EntityManager entityManager;
-    
-    @PostConstruct 
+
+    @PostConstruct
     private void setup () {
         updateMarketSummary();
     }
-    
+
     /* Update Market Summary every 20 seconds */
     @Schedule(second = "*/20",minute = "*", hour = "*", persistent = false)
-    private void updateMarketSummary() { 
-        
+    private void updateMarketSummary() {
         if (Log.doTrace()) {
             Log.trace("MarketSummarySingleton:updateMarketSummary -- updating market summary");
         }
-                        
+
         if (TradeConfig.getRunTimeMode() != TradeConfig.EJB3)
         {
             if (Log.doTrace()) {
@@ -65,10 +64,10 @@ public class MarketSummarySingleton {
             }
             return; // Only do the actual work if in EJB3 Mode
         }
-        
+
         List<QuoteDataBean> quotes;
-        
-        try {        
+
+        try {
         	// Find Trade Stock Index Quotes (Top 100 quotes) ordered by their change in value
         	CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         	CriteriaQuery<QuoteDataBean> criteriaQuery = criteriaBuilder.createQuery(QuoteDataBean.class);
@@ -80,8 +79,8 @@ public class MarketSummarySingleton {
         } catch (Exception e) {
         	Log.debug("Warning: The database has not been configured. If this is the first time the application has been started, please create and populate the database tables. Then restart the server.");
         	return;
-        }	
-                
+        }
+
         /* TODO: Make this cleaner? */
         QuoteDataBean[] quoteArray = quotes.toArray(new QuoteDataBean[quotes.size()]);
         ArrayList<QuoteDataBean> topGainers = new ArrayList<QuoteDataBean>(5);
@@ -109,12 +108,12 @@ public class MarketSummarySingleton {
             TSIA = TSIA.divide(new BigDecimal(quoteArray.length), FinancialUtils.ROUND);
             openTSIA = openTSIA.divide(new BigDecimal(quoteArray.length), FinancialUtils.ROUND);
         }
-        
+
         setMarketSummaryDataBean(new MarketSummaryDataBean(TSIA, openTSIA, totalVolume, topGainers, topLosers));
     }
 
     @Lock(LockType.READ)
-    public MarketSummaryDataBean getMarketSummaryDataBean() {       
+    public MarketSummaryDataBean getMarketSummaryDataBean() {
         return marketSummaryDataBean;
     }
 

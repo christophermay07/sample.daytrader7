@@ -76,7 +76,7 @@ public class TradeDirect implements TradeServices {
     private static BigDecimal ZERO = new BigDecimal(0.0);
     private boolean inGlobalTxn = false;
     private boolean inSession = false;
-   
+
     /**
      * Zero arg constructor for TradeDirect
      */
@@ -199,7 +199,7 @@ public class TradeDirect implements TradeServices {
         final Connection conn = getConn();
         OrderDataBean orderData = null;
         UserTransaction txn = null;
-         
+
         BigDecimal total;
 
         try {
@@ -233,9 +233,9 @@ public class TradeDirect implements TradeServices {
             // subtract total from account balance
             creditAccountBalance(conn, accountData, total.negate());
             final Integer orderID = orderData.getOrderID();
-            
+
             try {
-                
+
                 if (orderProcessingMode == TradeConfig.SYNCH) {
                     completeOrder(conn,orderID);
                 } else  {
@@ -338,7 +338,7 @@ public class TradeDirect implements TradeServices {
             BigDecimal orderFee = orderData.getOrderFee();
             total = (new BigDecimal(quantity).multiply(price)).subtract(orderFee);
             creditAccountBalance(conn, accountData, total);
-            
+
             try {
                 if (orderProcessingMode == TradeConfig.SYNCH) {
                     completeOrder(conn, orderData.getOrderID());
@@ -386,20 +386,20 @@ public class TradeDirect implements TradeServices {
         if (Log.doTrace()) {
             Log.trace("TradeDirect:queueOrder - inSession(" + this.inSession + ")", orderID);
         }
-        
+
         if (TradeConfig.getOrderProcessingMode() == TradeConfig.ASYNCH_MANAGEDTHREAD) {
-            
+
             try {
-                //TODO: Do I need this lookup every time? 
+                //TODO: Do I need this lookup every time?
                 ManagedThreadFactory managedThreadFactory = (ManagedThreadFactory) context.lookup("java:comp/DefaultManagedThreadFactory");
                 Thread thread = managedThreadFactory.newThread(new CompleteOrderThread(orderID, twoPhase));
                 thread.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else { 
+        } else {
 
-            try (JMSContext context = qConnFactory.createContext();){	
+            try (JMSContext context = qConnFactory.createContext();){
                 TextMessage message = context.createTextMessage();
 
                 message.setStringProperty("command", "neworder");
@@ -408,7 +408,7 @@ public class TradeDirect implements TradeServices {
                 message.setBooleanProperty("direct", true);
                 message.setLongProperty("publishTime", System.currentTimeMillis());
                 message.setText("neworder: orderID=" + orderID + " runtimeMode=Direct twoPhase=" + twoPhase);
-    		        		
+
                 context.createProducer().send(brokerQueue, message);
             } catch (Exception e) {
                 throw e; // pass the exception
@@ -432,7 +432,7 @@ public class TradeDirect implements TradeServices {
             setInGlobalTxn(!inSession && twoPhase);
             conn = getConn();
             orderData = completeOrder(conn, orderID);
-           
+
             commit(conn);
 
         } catch (Exception e) {
@@ -533,7 +533,7 @@ public class TradeDirect implements TradeServices {
         }
 
         stmt.close();
-        
+
         commit(conn);
 
         // commented out following call
@@ -1369,7 +1369,7 @@ public class TradeDirect implements TradeServices {
         if (Log.doTrace()) {
             Log.trace("TradeDirect:publishQuotePrice PUBLISHING to MDB quoteData = " + quoteData);
         }
-        
+
         try (JMSContext context = tConnFactory.createContext();){
     		TextMessage message = context.createTextMessage();
 
@@ -1388,7 +1388,7 @@ public class TradeDirect implements TradeServices {
             message.setLongProperty("publishTime", System.currentTimeMillis());
             message.setText("Update Stock price for " + quoteData.getSymbol() + " old price = " + oldPrice + " new price = " + quoteData.getPrice());
 
-      		
+
     		context.createProducer().send(streamerTopic, message);
 
         } catch (Exception e) {
@@ -1881,8 +1881,8 @@ public class TradeDirect implements TradeServices {
         if (datasource == null) {
             getDataSource();
         }
-        conn = datasource.getConnection();      
-        
+        conn = datasource.getConnection();
+
         if (!this.inGlobalTxn) {
         	conn.setAutoCommit(false);
         }
@@ -2032,7 +2032,7 @@ public class TradeDirect implements TradeServices {
             Log.error("TradeDirect:init -- error on JNDI lookups of DataSource -- TradeDirect will not work", e);
             return;
         }
-        
+
         try {
             qConnFactory = (ConnectionFactory) context.lookup("java:comp/env/jms/QueueConnectionFactory");
         } catch (Exception e) {
@@ -2068,8 +2068,8 @@ public class TradeDirect implements TradeServices {
                 TradeConfig.setPublishQuotePriceChange(false);
             }
         }
-        
-        		
+
+
         if (Log.doTrace()) {
             Log.trace("TradeDirect:init -- +++ initialized");
         }
@@ -2097,7 +2097,7 @@ public class TradeDirect implements TradeServices {
     private static ConnectionFactory tConnFactory;
 
     private static Topic streamerTopic;
-     
+
     /**
      * Gets the inGlobalTxn
      *

@@ -27,45 +27,44 @@ public class CompleteOrderThread implements Runnable {
 
         final Integer orderID;
         boolean twoPhase;
-        
-        
+
         public CompleteOrderThread (Integer id, boolean twoPhase) {
             orderID = id;
             this.twoPhase = twoPhase;
         }
-        
+
         @Override
         public void run() {
             TradeServices trade;
             UserTransaction ut = null;
-            
+
             try {
                 // TODO: Sometimes, rarely, the commit does not complete before the find in completeOrder (leads to null order)
                 // Adding delay here for now, will try to find a better solution in the future.
                 Thread.sleep(500);
-                
+
                 InitialContext context = new InitialContext();
                 ut = (UserTransaction) context.lookup("java:comp/UserTransaction");
-                
+
                 ut.begin();
-                
+
                 if (TradeConfig.getRunTimeMode() == TradeConfig.EJB3) {
                     trade = (TradeSLSBBean) context.lookup("java:module/TradeSLSBBean");
                 } else {
-                    trade = new TradeDirect(); 
+                    trade = new TradeDirect();
                 }
-                
+
                 trade.completeOrder(orderID, twoPhase);
-                
+
                 ut.commit();
             } catch (Exception e) {
-                
+
                 try {
                     ut.rollback();
                 } catch (Exception e1) {
                     throw new EJBException(e1);
-                } 
+                }
                 throw new EJBException(e);
-            } 
+            }
         }
 }

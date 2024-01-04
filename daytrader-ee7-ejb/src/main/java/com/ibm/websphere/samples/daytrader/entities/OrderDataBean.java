@@ -317,7 +317,7 @@ public class OrderDataBean implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        
+
         if (!(object instanceof OrderDataBean)) {
             return false;
         }

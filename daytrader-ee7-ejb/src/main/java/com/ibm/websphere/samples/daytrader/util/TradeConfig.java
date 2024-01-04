@@ -52,7 +52,7 @@ public class TradeConfig {
     public static final int JSP_Images = 1;
     public static int webInterface = JSP;
 
-    /* Trade Caching Type parameters 
+    /* Trade Caching Type parameters
     public static String[] cachingTypeNames = { "DistributedMap", "No Caching" };
     public static final int DISTRIBUTEDMAP = 0;
     public static final int NO_CACHING = 1;
@@ -166,7 +166,6 @@ public class TradeConfig {
     // Used to maintain the correct ratio of buys/sells
 
     /* JSP pages for all Trade Actions */
-
     public static final int WELCOME_PAGE = 0;
     public static final int REGISTER_PAGE = 1;
     public static final int PORTFOLIO_PAGE = 2;
@@ -189,15 +188,13 @@ public class TradeConfig {
     };
 
     // FUTURE:
-    // If a "trade2.properties" property file is supplied, reset the default
-    // values
+    // If a "trade2.properties" property file is supplied, reset the default values
     // to match those specified in the file. This provides a persistent runtime
     // property mechanism during server startup
 
     /**
      * Return the hostname for this system Creation date: (2/16/2000 9:02:25 PM)
      */
-
     private static String getHostname() {
         try {
             if (hostName == null) {
@@ -359,7 +356,6 @@ public class TradeConfig {
      * Returns a new Trade user Creation date: (2/16/2000 8:50:35 PM)
      */
     public static synchronized String rndNewUserID() {
-
         return newUserPrefix + getHostname() + System.currentTimeMillis() + count++;
     }
 
@@ -368,7 +364,7 @@ public class TradeConfig {
     }
 
     private static final BigDecimal ONE = new BigDecimal(1.0);
-	
+
     public static BigDecimal getRandomPriceChangeFactor() {
         // CJB (DAYTRADER-25) - Vary change factor between 1.1 and 0.9
         double percentGain = rndFloat(1) * 0.1;
@@ -395,7 +391,6 @@ public class TradeConfig {
     }
 
     public static String rndSymbols() {
-
         String symbols = "";
         int num_symbols = rndInt(QUOTES_PER_PAGE);
 
@@ -437,7 +432,7 @@ public class TradeConfig {
     // users for trading with tradescenarioservlet
     private static ArrayList<Integer> deck = null;
     private static int card = 0;
-	
+
     /**
      * Set the list of run time mode names Creation date: (3/8/2000 5:58:34 PM)
      *
@@ -458,12 +453,9 @@ public class TradeConfig {
      */
     public static void setConfigParam(String parm, String value) {
         Log.log("TradeConfig setting parameter: " + parm + "=" + value);
-        // Compare the parm value to valid TradeConfig parameters that can be
-        // set
-        // by servlet initialization
 
-        // First check the proposed new parm and value - if empty or null ignore
-        // it
+        // Compare the parm value to valid TradeConfig parameters that can be set by servlet initialization
+        // First check the proposed new parm and value - if empty or null ignore it
         if (parm == null) {
             return;
         }
@@ -590,15 +582,6 @@ public class TradeConfig {
     public static String[] getWebInterfaceNames() {
         return webInterfaceNames;
     }
-
-    /**
-     * Gets the webInterfaceNames
-     *
-     * @return Returns a String[]
-     */
-    /*public static String[] getCachingTypeNames() {
-        return cachingTypeNames;
-    }*/
 
     /**
      * Gets the scenarioMixes
@@ -832,14 +815,6 @@ public class TradeConfig {
         return webInterface;
     }
 
-    /*public static void setCachingType(int value) {
-        cachingType = value;
-    }
-
-    public static int getCachingType() {
-        return cachingType;
-    }
-	*/
     public static void setDisplayOrderAlerts(boolean value) {
         displayOrderAlerts = value;
     }
@@ -847,28 +822,20 @@ public class TradeConfig {
     public static boolean getDisplayOrderAlerts() {
         return displayOrderAlerts;
     }
-    /*
-    public static void setDistributedMapCacheSize(int value) {
-        distributedMapCacheSize = value;
-    }
-
-    public static int getDistributedMapCacheSize() {
-        return distributedMapCacheSize;
-    }*/
 
     public static void setPercentSentToWebsocket(int value) {
-		percentSentToWebsocket = value;
-	}
-    
-	public static int getPercentSentToWebsocket() {
-		return percentSentToWebsocket;
-	}
-	
-	public static void setUseRemoteEJBInterface(boolean value) {
-		useRemoteEJBInterface = value;
-	}
+        percentSentToWebsocket = value;
+    }
 
-	public static boolean useRemoteEJBInterface() {
-		return useRemoteEJBInterface;
-	}	
+    public static int getPercentSentToWebsocket() {
+        return percentSentToWebsocket;
+    }
+
+    public static void setUseRemoteEJBInterface(boolean value) {
+        useRemoteEJBInterface = value;
+    }
+
+    public static boolean useRemoteEJBInterface() {
+        return useRemoteEJBInterface;
+    }
 }

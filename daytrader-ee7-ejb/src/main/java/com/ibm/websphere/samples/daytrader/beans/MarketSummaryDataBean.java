@@ -34,19 +34,18 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 public class MarketSummaryDataBean implements Serializable {
 
     private static final long serialVersionUID = 650652242288745600L;
-    private BigDecimal TSIA; /* Trade Stock Index Average */
-    private BigDecimal openTSIA; /* Trade Stock Index Average at the open */
-    private double volume; /* volume of shares traded */
-    private Collection<QuoteDataBean> topGainers; /*
-                                                   * Collection of top gaining
-                                                   * stocks
-                                                   */
-    private Collection<QuoteDataBean> topLosers; /*
-                                                  * Collection of top losing
-                                                  * stocks
-                                                  */
-    // FUTURE private Collection topVolume; /* Collection of top stocks by
-    // volume */
+    /* Trade Stock Index Average */
+    private BigDecimal TSIA;
+    /* Trade Stock Index Average at the open */
+    private BigDecimal openTSIA;
+    /* volume of shares traded */
+    private double volume;
+    /* Collection of top gaining stocks */
+    private Collection<QuoteDataBean> topGainers;
+
+    /* Collection of top losing stocks */
+    private Collection<QuoteDataBean> topLosers;
+
     private Date summaryDate; /* Date this summary was taken */
 
     // cache the gainPercent once computed for this bean
@@ -128,9 +127,8 @@ public class MarketSummaryDataBean implements Serializable {
     }
 
     public JsonObject toJSON() {
-        
         JsonObjectBuilder jObjectBuilder = Json.createObjectBuilder();
-        
+
         int i = 1;
         for (Iterator<QuoteDataBean> iterator = topGainers.iterator(); iterator.hasNext();) {
             QuoteDataBean quote = iterator.next();
@@ -156,7 +154,7 @@ public class MarketSummaryDataBean implements Serializable {
         jObjectBuilder.add("date", summaryDate.toString());
 
         return jObjectBuilder.build();
-        
+
     }
 
     public void print() {

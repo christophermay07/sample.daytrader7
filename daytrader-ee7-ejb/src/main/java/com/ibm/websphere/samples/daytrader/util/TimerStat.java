@@ -126,7 +126,6 @@ public class TimerStat {
      * @return double
      */
     public double getAvgSecs() {
-
         double avg = getTotalTime() / getCount();
         return avg / 1000.0;
     }
