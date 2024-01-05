@@ -62,10 +62,10 @@
          Integer status = null;
 
          //these attribute names are specified by Servlet 2.2
-         message = (String) request.getAttribute("javax.servlet.error.message");
-         status = ((Integer) request.getAttribute("javax.servlet.error.status_code"));
-         theException = (Exception) request.getAttribute("javax.servlet.error.exception");
-         url = (String) request.getAttribute("javax.servlet.error.request_uri");
+         message = (String) request.getAttribute("jakarta.servlet.error.message");
+         status = ((Integer) request.getAttribute("jakarta.servlet.error.status_code"));
+         theException = (Exception) request.getAttribute("jakarta.servlet.error.exception");
+         url = (String) request.getAttribute("jakarta.servlet.error.request_uri");
 
          // convert the stack trace to a string
          StringWriter sw = new StringWriter();

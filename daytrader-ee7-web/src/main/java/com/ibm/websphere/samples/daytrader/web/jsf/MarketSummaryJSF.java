@@ -21,10 +21,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
 import com.ibm.websphere.samples.daytrader.beans.MarketSummaryDataBean;

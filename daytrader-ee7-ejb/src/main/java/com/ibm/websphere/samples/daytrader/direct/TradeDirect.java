@@ -26,16 +26,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.enterprise.concurrent.ManagedThreadFactory;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.TextMessage;
-import javax.jms.Topic;
+import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.Queue;
+import jakarta.jms.TextMessage;
+import jakarta.jms.Topic;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.UserTransaction;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
 import com.ibm.websphere.samples.daytrader.TradeServices;
@@ -54,7 +54,7 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 
 /**
  * TradeDirect uses direct JDBC and JMS access to a
- * <code>javax.sql.DataSource</code> to implement the business methods of the
+ * <code>jakarta.sql.DataSource</code> to implement the business methods of the
  * Trade online broker application. These business methods represent the
  * features and operations that can be performed by customers of the brokerage
  * such as login, logout, get a stock quote, buy or sell a stock, etc. and are
@@ -212,7 +212,7 @@ public class TradeDirect implements TradeServices {
                     Log.trace("TradeDirect:buy create/begin global transaction");
                 }
                 // FUTURE the UserTransaction be looked up once
-                txn = (javax.transaction.UserTransaction) context.lookup("java:comp/UserTransaction");
+                txn = (jakarta.transaction.UserTransaction) context.lookup("java:comp/UserTransaction");
                 txn.begin();
                 setInGlobalTxn(true);
             }
@@ -299,7 +299,7 @@ public class TradeDirect implements TradeServices {
                     // FUTURE the UserTransaction be looked up once
                 }
 
-                txn = (javax.transaction.UserTransaction) context.lookup("java:comp/UserTransaction");
+                txn = (jakarta.transaction.UserTransaction) context.lookup("java:comp/UserTransaction");
                 txn.begin();
                 setInGlobalTxn(true);
             }
@@ -1418,7 +1418,7 @@ public class TradeDirect implements TradeServices {
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
                 Log.error("TradeDirect:login -- failure to find account for" + userID);
-                throw new javax.ejb.FinderException("Cannot find account for" + userID);
+                throw new jakarta.ejb.FinderException("Cannot find account for" + userID);
             }
 
             String pw = rs.getString("passwd");

@@ -15,18 +15,18 @@
  */
 package com.ibm.websphere.samples.daytrader.ejb3;
 
-import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJB;
-import javax.ejb.MessageDriven;
-import javax.ejb.MessageDrivenContext;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
+import jakarta.annotation.Resource;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.EJB;
+import jakarta.ejb.MessageDriven;
+import jakarta.ejb.MessageDrivenContext;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.TextMessage;
 
 import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.direct.TradeDirect;
@@ -37,7 +37,7 @@ import com.ibm.websphere.samples.daytrader.util.TimerStat;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @MessageDriven(activationConfig = { @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Queue"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "TradeBrokerQueue"),
         @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "NonDurable") })
 public class DTBroker3MDB implements MessageListener {

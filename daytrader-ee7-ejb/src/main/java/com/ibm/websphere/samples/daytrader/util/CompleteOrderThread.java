@@ -15,9 +15,9 @@
  */
 package com.ibm.websphere.samples.daytrader.util;
 
-import javax.ejb.EJBException;
+import jakarta.ejb.EJBException;
 import javax.naming.InitialContext;
-import javax.transaction.UserTransaction;
+import jakarta.transaction.UserTransaction;
 
 import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.direct.TradeDirect;

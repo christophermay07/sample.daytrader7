@@ -388,8 +388,8 @@ if (operation == "all" or operation == "configure"):
 	createJMSQueue(brokerQueue, "jms/"+brokerQueue, brokerSIBDest, deliveryMode, scope )
 	createJMSTopic(streamerTopic, "jms/"+streamerTopic, topicSpace, deliveryMode, scope )
 
-	createMDBActivationSpec(brokerMDB, "eis/"+brokerMDB, sibus, "jms/"+brokerQueue, "javax.jms.Queue", DefaultAdminAuthAliasName, scope, durability )
-	createMDBActivationSpec(streamerMDB, "eis/"+streamerMDB, sibus, "jms/"+streamerTopic, "javax.jms.Topic", DefaultAdminAuthAliasName, scope, durability )
+	createMDBActivationSpec(brokerMDB, "eis/"+brokerMDB, sibus, "jms/"+brokerQueue, "jakarta.jms.Queue", DefaultAdminAuthAliasName, scope, durability )
+	createMDBActivationSpec(streamerMDB, "eis/"+streamerMDB, sibus, "jms/"+streamerTopic, "jakarta.jms.Topic", DefaultAdminAuthAliasName, scope, durability )
 
 	print ""
 	print "------------------------------------------------"

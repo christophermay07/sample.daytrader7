@@ -18,13 +18,13 @@ package com.ibm.websphere.samples.daytrader.web.jsf;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.ExternalContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
 import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;

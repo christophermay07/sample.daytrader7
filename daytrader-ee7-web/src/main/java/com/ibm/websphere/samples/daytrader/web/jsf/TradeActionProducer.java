@@ -15,8 +15,8 @@
  */
 package com.ibm.websphere.samples.daytrader.web.jsf;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Produces;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
 

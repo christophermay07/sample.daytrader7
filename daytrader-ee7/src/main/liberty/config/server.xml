@@ -66,6 +66,6 @@
 	</jmsActivationSpec>
 
 	<jmsActivationSpec id="eis/TradeStreamerMDB">
-		<properties.wasJms destinationRef="TradeStreamerTopic" destinationType="javax.jms.Topic"/>
+		<properties.wasJms destinationRef="TradeStreamerTopic" destinationType="jakarta.jms.Topic"/>
 	</jmsActivationSpec>
 </server>

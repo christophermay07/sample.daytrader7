@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.component.html.HtmlDataTable;
-import javax.faces.context.ExternalContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpSession;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.component.html.HtmlDataTable;
+import jakarta.faces.context.ExternalContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpSession;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
 import com.ibm.websphere.samples.daytrader.entities.HoldingDataBean;

@@ -18,9 +18,9 @@ package com.ibm.websphere.samples.daytrader.web;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
 import com.ibm.websphere.samples.daytrader.direct.TradeDirect;
 import com.ibm.websphere.samples.daytrader.util.Log;

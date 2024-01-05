@@ -15,7 +15,7 @@
  */
 package com.ibm.websphere.samples.daytrader.ejb3;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.entities.QuoteDataBean;

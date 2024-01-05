@@ -90,14 +90,14 @@
     </resource-ref>
     <resource-ref>
         <res-ref-name>jms/QueueConnectionFactory</res-ref-name>
-        <res-type>javax.jms.QueueConnectionFactory</res-type>
+        <res-type>jakarta.jms.QueueConnectionFactory</res-type>
         <res-auth>Application</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
         <lookup-name>jms/QueueConnectionFactory</lookup-name>
     </resource-ref>
     <resource-ref>
         <res-ref-name>jms/TopicConnectionFactory</res-ref-name>
-        <res-type>javax.jms.TopicConnectionFactory</res-type>
+        <res-type>jakarta.jms.TopicConnectionFactory</res-type>
         <res-auth>Application</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
         <lookup-name>jms/TopicConnectionFactory</lookup-name>
@@ -105,14 +105,14 @@
       
     <message-destination-ref>
         <message-destination-ref-name>jms/TradeBrokerQueue</message-destination-ref-name>
-        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-type>jakarta.jms.Queue</message-destination-type>
         <message-destination-usage>Produces</message-destination-usage>
         <message-destination-link>daytrader-ee7-ejb#TradeBrokerQueue</message-destination-link>
         <lookup-name>jms/TradeBrokerQueue</lookup-name>
     </message-destination-ref>
     <message-destination-ref>
         <message-destination-ref-name>jms/TradeStreamerTopic</message-destination-ref-name>
-        <message-destination-type>javax.jms.Topic</message-destination-type>
+        <message-destination-type>jakarta.jms.Topic</message-destination-type>
         <message-destination-usage>Produces</message-destination-usage>
         <message-destination-link>daytrader-ee7-ejb#TradeStreamerTopic</message-destination-link>
         <lookup-name>jms/TradeStreamerTopic</lookup-name>
@@ -128,14 +128,14 @@
     </resource-ref>
     <resource-ref>
         <res-ref-name>jms/QueueConnectionFactory</res-ref-name>
-        <res-type>javax.jms.QueueConnectionFactory</res-type>
+        <res-type>jakarta.jms.QueueConnectionFactory</res-type>
         <res-auth>Application</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
         <lookup-name>java:/jms/QueueConnectionFactory</lookup-name>
     </resource-ref>
     <resource-ref>
         <res-ref-name>jms/TopicConnectionFactory</res-ref-name>
-        <res-type>javax.jms.TopicConnectionFactory</res-type>
+        <res-type>jakarta.jms.TopicConnectionFactory</res-type>
         <res-auth>Application</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
         <lookup-name>java:/jms/TopicConnectionFactory</lookup-name>
@@ -143,14 +143,14 @@
       
     <message-destination-ref>
         <message-destination-ref-name>jms/TradeBrokerQueue</message-destination-ref-name>
-        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-type>jakarta.jms.Queue</message-destination-type>
         <message-destination-usage>Produces</message-destination-usage>
         <message-destination-link>daytrader-ee7-ejb#TradeBrokerQueue</message-destination-link>
         <lookup-name>java:/jms/TradeBrokerQueue</lookup-name>
     </message-destination-ref>
     <message-destination-ref>
         <message-destination-ref-name>jms/TradeStreamerTopic</message-destination-ref-name>
-        <message-destination-type>javax.jms.Topic</message-destination-type>
+        <message-destination-type>jakarta.jms.Topic</message-destination-type>
         <message-destination-usage>Produces</message-destination-usage>
         <message-destination-link>daytrader-ee7-ejb#TradeStreamerTopic</message-destination-link>
         <lookup-name>java:/jms/TradeStreamerTopic</lookup-name>

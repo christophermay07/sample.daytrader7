@@ -15,8 +15,8 @@
  */
 package com.ibm.websphere.samples.daytrader.web.prims;
 
-import javax.ejb.Local;
-import javax.ejb.Stateful;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateful;
 
 /**
  *

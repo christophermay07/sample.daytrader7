@@ -17,7 +17,7 @@ package com.ibm.websphere.samples.daytrader.ejb3;
 
 import java.math.BigDecimal;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.entities.QuoteDataBean;
