@@ -2,12 +2,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-      <groupId>net.wasdev.wlp.sample</groupId>
+      <groupId>com.redhat.consulting.sample</groupId>
       <artifactId>daytrader7</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>quarkus</version>
   </parent>
    
-	<name>WAS Liberty Sample - Java EE7 Benchmark Sample - EAR</name>
+	<name>Quarkus Migration Sample - EAR</name>
 
     <properties>
         <!-- Update this to match the port number in the websocketSample server.xml
@@ -28,19 +28,19 @@
 	
     <packaging>ear</packaging>
 	<artifactId>daytrader-ee7</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 
 	<dependencies>
         <dependency>
-            <groupId>net.wasdev.wlp.sample</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>daytrader-ee7-ejb</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <type>ejb</type>
         </dependency>
 	    <dependency>
-            <groupId>net.wasdev.wlp.sample</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>daytrader-ee7-web</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <type>war</type>
         </dependency>
         <!-- Derby from https://mvnrepository.com/artifact/org.apache.derby/derby -->
@@ -64,13 +64,13 @@
                 <version>7</version>
                 <modules>
                     <webModule>
-                        <groupId>net.wasdev.wlp.sample</groupId>
+                        <groupId>com.redhat.consulting.sample</groupId>
                         <artifactId>daytrader-ee7-web</artifactId>
                         <uri>/daytrader-ee7-web.war</uri>>
                         <contextRoot>/daytrader</contextRoot>
                     </webModule>
                     <ejbModule>
-                        <groupId>net.wasdev.wlp.sample</groupId>
+                        <groupId>com.redhat.consulting.sample</groupId>
                         <artifactId>daytrader-ee7-ejb</artifactId>
                         <uri>/daytrader-ee7-ejb.jar</uri>
                     </ejbModule>
