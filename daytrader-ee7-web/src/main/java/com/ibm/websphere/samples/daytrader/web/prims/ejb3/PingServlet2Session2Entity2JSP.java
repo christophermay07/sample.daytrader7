@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import jakarta.ejb.EJB;
 import javax.naming.InitialContext;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -46,8 +47,8 @@ public class PingServlet2Session2Entity2JSP extends HttpServlet {
 
     private static final long serialVersionUID = -8966014710582651693L;
 
-    @EJB(lookup="java:app/daytrader-ee7-ejb/TradeSLSBBean!com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBLocal")
-    private TradeSLSBBean tradeSLSBLocal;
+    @Inject
+    TradeSLSBBean tradeSLSBBean;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -68,7 +69,7 @@ public class PingServlet2Session2Entity2JSP extends HttpServlet {
                     // getQuote will call findQuote which will instaniate the
                     // Quote Entity Bean
                     // and then will return a QuoteObject
-                    quoteData = tradeSLSBLocal.getQuote(symbol);
+                    quoteData = tradeSLSBBean.getQuote(symbol);
                 }
 
                 req.setAttribute("quoteData", quoteData);
@@ -98,17 +99,5 @@ public class PingServlet2Session2Entity2JSP extends HttpServlet {
         super.init(config);
         // hitCount = 0;
         // initTime = new java.util.Date().toString();
-
-        if (tradeSLSBLocal == null) {
-            Log.error("PingServlet2Session2Entity2JSP:init - Injection of tradeSLSBLocal failed - performing JNDI lookup!");
-
-            try {
-                InitialContext context = new InitialContext();
-                tradeSLSBLocal = (TradeSLSBBean) context.lookup("java:comp/env/ejb/TradeSLSBBean");
-            } catch (Exception ex) {
-                Log.error("PingServlet2Session2EntityJSP:init - Lookup of tradeSLSBLocal failed!!!");
-                ex.printStackTrace();
-            }
-        }
     }
 }

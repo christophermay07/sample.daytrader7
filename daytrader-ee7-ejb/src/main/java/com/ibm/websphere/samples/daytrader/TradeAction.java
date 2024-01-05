@@ -32,8 +32,7 @@ import javax.naming.InitialContext;
 import com.ibm.websphere.samples.daytrader.beans.MarketSummaryDataBean;
 import com.ibm.websphere.samples.daytrader.beans.RunStatsDataBean;
 import com.ibm.websphere.samples.daytrader.direct.TradeDirect;
-import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBLocal;
-import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBRemote;
+import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBBean;
 import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;
 import com.ibm.websphere.samples.daytrader.entities.AccountProfileDataBean;
 import com.ibm.websphere.samples.daytrader.entities.HoldingDataBean;
@@ -42,6 +41,8 @@ import com.ibm.websphere.samples.daytrader.entities.QuoteDataBean;
 import com.ibm.websphere.samples.daytrader.util.FinancialUtils;
 import com.ibm.websphere.samples.daytrader.util.Log;
 import com.ibm.websphere.samples.daytrader.util.TradeConfig;
+
+import jakarta.inject.Inject;
 
 /**
  * The TradeAction class provides the generic client side access to each of the
@@ -53,6 +54,10 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
  */
 public class TradeAction implements TradeServices {
 
+    // TODO (chmay): Can't inject here, but out of scope for current commit.
+    @Inject
+    TradeSLSBBean tradeSLSBBean;
+
 	// This lock is used to serialize market summary operations.
     private static final Integer marketSummaryLock = new Integer(0);
     private static long nextMarketSummary = System.currentTimeMillis();
@@ -62,8 +67,6 @@ public class TradeAction implements TradeServices {
     // - ejb3 mode is the only thing that really uses this
     // - can go back and update other modes to take advantage (ie. TradeDirect)
     private static TradeServices trade = null;
-    private static TradeServices tradeLocal = null;
-    private static TradeServices tradeRemote = null;
     
     static {
                       
@@ -99,37 +102,9 @@ public class TradeAction implements TradeServices {
         createTrade();
     }
 
-    public TradeAction(TradeServices trade) {
-        if (Log.doActionTrace()) {
-            Log.trace("TradeAction:TradeAction(trade)");
-        }
-        TradeAction.trade = trade;
-    }
-
     private void createTrade() {
         if (TradeConfig.runTimeMode == TradeConfig.EJB3) {
-            try {	     
-            	
-            	if (tradeLocal == null && tradeRemote == null ) {
-            		InitialContext context = new InitialContext();
-            		tradeLocal = (TradeSLSBLocal) context.lookup("java:comp/env/ejb/TradeSLSBBean");
-            		tradeRemote = (TradeSLSBRemote) context.lookup("java:comp/env/ejb/TradeSLSBBeanRemote");
-            	}
-            	
-            	// Determine local or remote interface.
-            	if (!TradeConfig.useRemoteEJBInterface()) {
-            		if (!(trade instanceof TradeSLSBLocal)) {
-            			trade = tradeLocal;
-            		}
-            	} else if (!(trade instanceof TradeSLSBRemote)) {
-            		/* TODO: For split tier this will need to be changed
-            			I have not tried this yet with DT7 */
-            		trade = tradeRemote;
-            	}
-            } catch (Exception e) {
-                Log.error("TradeAction:TradeAction() Creation of Trade EJB 3 failed\n" + e);
-                e.printStackTrace();
-            }
+            trade = tradeSLSBBean;
         } else if (TradeConfig.runTimeMode == TradeConfig.DIRECT) {
             try {
                 trade = new TradeDirect();

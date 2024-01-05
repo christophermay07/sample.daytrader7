@@ -16,6 +16,7 @@
 package com.ibm.websphere.samples.daytrader.util;
 
 import jakarta.ejb.EJBException;
+import jakarta.inject.Inject;
 import javax.naming.InitialContext;
 import jakarta.transaction.UserTransaction;
 
@@ -24,6 +25,10 @@ import com.ibm.websphere.samples.daytrader.direct.TradeDirect;
 import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBBean;
 
 public class CompleteOrderThread implements Runnable {
+
+        // TODO (chmay): Can't inject here, but out of scope for current commit.
+        @Inject
+        TradeSLSBBean tradeSLSBBean;
 
         final Integer orderID;
         boolean twoPhase;
@@ -50,7 +55,7 @@ public class CompleteOrderThread implements Runnable {
                 ut.begin();
                 
                 if (TradeConfig.getRunTimeMode() == TradeConfig.EJB3) {
-                    trade = (TradeSLSBBean) context.lookup("java:module/TradeSLSBBean");
+                    trade = tradeSLSBBean;
                 } else {
                     trade = new TradeDirect(); 
                 }

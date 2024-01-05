@@ -17,7 +17,7 @@ package com.ibm.websphere.samples.daytrader.web.prims.ejb3;
 
 import java.io.IOException;
 
-import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -45,8 +45,8 @@ public class PingServlet2Session2CMROne2One extends HttpServlet {
 
     private static int hitCount;
 
-    @EJB(lookup="java:app/daytrader-ee7-ejb/TradeSLSBBean!com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBLocal")
-    private TradeSLSBBean tradeSLSBLocal;
+    @Inject
+    TradeSLSBBean tradeSLSBBean;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -73,7 +73,7 @@ public class PingServlet2Session2CMROne2One extends HttpServlet {
             for (int ii = 0; ii < iter; ii++) {
                 userID = TradeConfig.rndUserID();
                 // get the price and print the output.
-                accountProfileData = tradeSLSBLocal.getAccountProfileData(userID);
+                accountProfileData = tradeSLSBBean.getAccountProfileData(userID);
             }
 
             output.append("<HR>initTime: " + initTime + "<BR>Hit Count: ").append(hitCount++);

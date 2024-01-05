@@ -24,6 +24,7 @@ import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
+import jakarta.inject.Inject;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
 import jakarta.jms.TextMessage;
@@ -46,8 +47,8 @@ public class DTBroker3MDB implements MessageListener {
 
     
     // TODO: Using local interface, make it configurable to use remote?
-    @EJB
-    private TradeSLSBLocal tradeSLSB;
+    @Inject
+    TradeSLSBBean tradeSLSBBean;
 
     @Resource
     public MessageDrivenContext mdc;
@@ -152,7 +153,7 @@ public class DTBroker3MDB implements MessageListener {
         if (direct) {
             trade = new TradeDirect();
         } else {
-            trade = tradeSLSB;
+            trade = tradeSLSBBean;
         }
 
         return trade;

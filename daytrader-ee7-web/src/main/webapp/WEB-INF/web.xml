@@ -66,21 +66,6 @@
     </error-page>
     
     
-    <ejb-ref>
-        <ejb-ref-name>ejb/TradeSLSBBeanRemote</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <home></home>        
-        <remote>com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBRemote</remote>
-        <ejb-link>TradeSLSBBean</ejb-link>
-    </ejb-ref>
-    
-    <ejb-local-ref>
-        <ejb-ref-name>ejb/TradeSLSBBean</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>        
-        <local>com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBLocal</local>
-        <ejb-link>TradeSLSBBean</ejb-link>
-    </ejb-local-ref>
-   
     <resource-ref>
         <res-ref-name>jdbc/TradeDataSource</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>

@@ -29,11 +29,11 @@ import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.SessionContext;
-import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.jms.JMSContext;
 import jakarta.jms.Queue;
@@ -48,9 +48,10 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.RollbackException;
+import jakarta.transaction.Transactional;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
-//import com.ibm.websphere.samples.daytrader.TradeServices;
+import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.beans.MarketSummaryDataBean;
 import com.ibm.websphere.samples.daytrader.beans.RunStatsDataBean;
 import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;
@@ -63,10 +64,9 @@ import com.ibm.websphere.samples.daytrader.util.FinancialUtils;
 import com.ibm.websphere.samples.daytrader.util.Log;
 import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 
-@Stateless
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
-@TransactionManagement(TransactionManagementType.CONTAINER)
-public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
+@ApplicationScoped
+@Transactional
+public class TradeSLSBBean implements TradeServices {
 	
     @Resource(name = "jms/QueueConnectionFactory", authenticationType = jakarta.annotation.Resource.AuthenticationType.APPLICATION)
     private QueueConnectionFactory queueConnectionFactory;
@@ -80,6 +80,9 @@ public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
     @Resource(lookup = "jms/TradeBrokerQueue")
     private Queue tradeBrokerQueue;
     
+    @Inject
+    TradeSLSBBean tradeSLSBBean;
+
     @Inject
     ManagedExecutor managedExecutor;
 	
@@ -463,7 +466,7 @@ public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
         quote.setVolume(quote.getVolume() + sharesTraded);
         entityManager.merge(quote);
 
-        context.getBusinessObject(TradeSLSBLocal.class).publishQuotePriceChange(quote, oldPrice, changeFactor, sharesTraded);
+        tradeSLSBBean.publishQuotePriceChange(quote, oldPrice, changeFactor, sharesTraded);
        
         return quote;
     }

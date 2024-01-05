@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import jakarta.ejb.EJB;
 import javax.naming.InitialContext;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,7 +27,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBRemote;
+import com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBBean;
 import com.ibm.websphere.samples.daytrader.util.Log;
 import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 
@@ -49,8 +50,8 @@ public class PingServlet2SessionRemote extends HttpServlet {
 
     private static int hitCount;
 
-    @EJB(lookup="java:app/daytrader-ee7-ejb/TradeSLSBBean!com.ibm.websphere.samples.daytrader.ejb3.TradeSLSBRemote")
-    private TradeSLSBRemote tradeSLSBRemote;
+    @Inject
+    TradeSLSBBean tradeSLSBBean;
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -78,7 +79,7 @@ public class PingServlet2SessionRemote extends HttpServlet {
                 double increase = 0.0;
                 int iter = TradeConfig.getPrimIterations();
                 for (int ii = 0; ii < iter; ii++) {
-                    increase = tradeSLSBRemote.investmentReturn(rnd1, rnd2);
+                    increase = tradeSLSBBean.investmentReturn(rnd1, rnd2);
                 }
 
                 // write out the output
@@ -112,17 +113,5 @@ public class PingServlet2SessionRemote extends HttpServlet {
         super.init(config);
         hitCount = 0;
         initTime = new java.util.Date().toString();
-
-        if (tradeSLSBRemote == null) {
-            Log.error("PingServlet2Session:init - Injection of tradeSLSBRemote failed - performing JNDI lookup!");
-
-            try {
-                InitialContext context = new InitialContext();
-                tradeSLSBRemote = (TradeSLSBRemote) context.lookup("java:comp/env/ejb/TradeSLSBBeanRemote");
-            } catch (Exception ex) {
-                Log.error("PingServlet2Session:init - Lookup of tradeSLSBRemote failed!!!");
-                ex.printStackTrace();
-            }
-        }
     }
 }
