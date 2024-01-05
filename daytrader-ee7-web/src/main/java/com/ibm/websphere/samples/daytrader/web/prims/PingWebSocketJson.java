@@ -18,7 +18,6 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 
 import java.io.IOException;
 
-import jakarta.enterprise.concurrent.ManagedThreadFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import jakarta.websocket.CloseReason;
@@ -30,14 +29,21 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
+import org.eclipse.microprofile.context.ManagedExecutor;
+
 import com.ibm.websphere.samples.daytrader.web.websocket.JsonDecoder;
 import com.ibm.websphere.samples.daytrader.web.websocket.JsonEncoder;
 import com.ibm.websphere.samples.daytrader.web.websocket.JsonMessage;
+
+import jakarta.inject.Inject;
 
 /** This class a simple websocket that sends the number of times it has been pinged. */
 
 @ServerEndpoint(value = "/pingWebSocketJson",encoders=JsonEncoder.class ,decoders=JsonDecoder.class)
 public class PingWebSocketJson {
+
+    @Inject
+    ManagedExecutor managedExecutor;
 
     private Session currentSession = null;
     private Integer sentHitCount = null;
@@ -50,47 +56,29 @@ public class PingWebSocketJson {
         receivedHitCount = 0;
         
         
-        InitialContext context;
-        ManagedThreadFactory mtf = null;
-        
-        try {
-            context = new InitialContext();
-            mtf = (ManagedThreadFactory) context.lookup("java:comp/DefaultManagedThreadFactory");
-        
-        } catch (NamingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        
-        Thread thread = mtf.newThread(new Runnable() {
-
-            @Override
-            public void run() {
+        Runnable thread = () -> {
+            try {
+                Thread.sleep(500);
                 
-                try {
+                while (currentSession.isOpen()) {
+                    sentHitCount++;
                 
-                    Thread.sleep(500);
-                    
-                    while (currentSession.isOpen()) {
-                        sentHitCount++;
-                    
-                        JsonMessage response = new JsonMessage();
-                        response.setKey("sentHitCount");
-                        response.setValue(sentHitCount.toString());
-                        currentSession.getAsyncRemote().sendObject(response);
+                    JsonMessage response = new JsonMessage();
+                    response.setKey("sentHitCount");
+                    response.setValue(sentHitCount.toString());
+                    currentSession.getAsyncRemote().sendObject(response);
 
-                        Thread.sleep(100);
-                    }
-                    
-                           
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(100);
                 }
+
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
                 
-        });
+        };
         
-        thread.start();
+        managedExecutor.execute(thread);
         
     }
 

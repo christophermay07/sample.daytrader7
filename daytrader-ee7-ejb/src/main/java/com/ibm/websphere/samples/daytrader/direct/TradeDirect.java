@@ -26,7 +26,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.inject.Inject;
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.JMSContext;
 import jakarta.jms.JMSException;
@@ -35,6 +35,9 @@ import jakarta.jms.TextMessage;
 import jakarta.jms.Topic;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import org.eclipse.microprofile.context.ManagedExecutor;
+
 import jakarta.transaction.UserTransaction;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
@@ -70,6 +73,10 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
  */
 
 public class TradeDirect implements TradeServices {
+
+    // TODO (chmay): Can't inject here, but out of scope for current commit.
+    @Inject
+    ManagedExecutor managedExecutor;
 
     private static String dsName = TradeConfig.DATASOURCE;
     private static DataSource datasource = null;
@@ -391,9 +398,7 @@ public class TradeDirect implements TradeServices {
             
             try {
                 //TODO: Do I need this lookup every time? 
-                ManagedThreadFactory managedThreadFactory = (ManagedThreadFactory) context.lookup("java:comp/DefaultManagedThreadFactory");
-                Thread thread = managedThreadFactory.newThread(new CompleteOrderThread(orderID, twoPhase));
-                thread.start();
+                managedExecutor.execute(new CompleteOrderThread(orderID, twoPhase));
             } catch (Exception e) {
                 e.printStackTrace();
             }

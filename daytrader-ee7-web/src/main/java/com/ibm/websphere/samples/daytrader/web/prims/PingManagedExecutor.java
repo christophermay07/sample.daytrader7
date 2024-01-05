@@ -17,8 +17,9 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 
 import java.io.IOException;
 
-import jakarta.annotation.Resource;
-import jakarta.enterprise.concurrent.ManagedExecutorService;
+import org.eclipse.microprofile.context.ManagedExecutor;
+
+import jakarta.inject.Inject;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -35,8 +36,8 @@ public class PingManagedExecutor extends HttpServlet{
 	private static String initTime;
     private static int hitCount;
 
-	@Resource 
-	private ManagedExecutorService mes;
+	@Inject
+	ManagedExecutor mes;
 	
 	 /**
      * forwards post requests to the doGet method Creation date: (03/18/2014

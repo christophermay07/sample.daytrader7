@@ -17,8 +17,10 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 
 import java.io.IOException;
 
+import org.eclipse.microprofile.context.ManagedExecutor;
+
 import jakarta.annotation.Resource;
-import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.inject.Inject;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -37,8 +39,8 @@ public class PingManagedThread extends HttpServlet{
 	private static String initTime;
     private static int hitCount;
 
-	@Resource 
-	private ManagedThreadFactory managedThreadFactory;
+	@Inject
+	ManagedExecutor managedExecutor;
 	
 	 /**
      * forwards post requests to the doGet method Creation date: (03/18/2014
@@ -76,19 +78,16 @@ public class PingManagedThread extends HttpServlet{
 			out.println("<html><head><title>Ping ManagedThread</title></head>"
                     + "<body><HR><BR><FONT size=\"+2\" color=\"#000066\">Ping ManagedThread<BR></FONT><FONT size=\"+1\" color=\"#000066\">Init time : " + initTime + "<BR/><BR/></FONT>");			
 		
-			Thread thread = managedThreadFactory.newThread(new Runnable() {
-    			@Override
-    			public void run() {
-    				try {
-						out.println("<b>HitCount: " + ++hitCount  +"</b><br/>");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-    				asyncContext.complete();
-    			}
-    		});   		    		
+			Runnable thread = () -> {
+				try {
+					out.println("<b>HitCount: " + ++hitCount  +"</b><br/>");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				asyncContext.complete();
+			};
 			
-			thread.start();
+			managedExecutor.execute(thread);
 		
 		} catch (Exception e) {
 			Log.error(e, "PingManagedThreadServlet.doGet(...): general exception caught");

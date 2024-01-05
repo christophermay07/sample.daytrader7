@@ -22,6 +22,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.microprofile.context.ManagedExecutor;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
@@ -32,7 +34,7 @@ import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
-import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.inject.Inject;
 import jakarta.jms.JMSContext;
 import jakarta.jms.Queue;
 import jakarta.jms.QueueConnectionFactory;
@@ -78,8 +80,8 @@ public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
     @Resource(lookup = "jms/TradeBrokerQueue")
     private Queue tradeBrokerQueue;
     
-    @Resource 
-    private ManagedThreadFactory managedThreadFactory;
+    @Inject
+    ManagedExecutor managedExecutor;
 	
     /* JBoss 
     @Resource(name = "java:/jms/QueueConnectionFactory", authenticationType = jakarta.annotation.Resource.AuthenticationType.APPLICATION)
@@ -227,9 +229,7 @@ public class TradeSLSBBean implements TradeSLSBRemote, TradeSLSBLocal {
                 	
         if (TradeConfig.getOrderProcessingMode() == TradeConfig.ASYNCH_MANAGEDTHREAD) {
         
-            Thread thread = managedThreadFactory.newThread(new CompleteOrderThread(orderID, twoPhase));
-            
-            thread.start();
+            managedExecutor.execute(new CompleteOrderThread(orderID, twoPhase));
         
         } else {
         
