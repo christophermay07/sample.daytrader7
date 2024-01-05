@@ -21,11 +21,15 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import javax.naming.InitialContext;
 
 @RequestScoped
 @PingInterceptorBinding
 public class PingCDIBean {
+
+    @Inject
+    BeanManager beanManager;
 
     private static int helloHitCount = 0;
     private static int getBeanManagerHitCountJNDI = 0;
@@ -47,7 +51,6 @@ public class PingCDIBean {
     }
     
     public int getBeanMangerViaCDICurrent() throws Exception {
-        BeanManager beanManager = CDI.current().getBeanManager();
         Set<Bean<?>> beans = beanManager.getBeans(Object.class);
         
         if (beans.size() > 0) {
