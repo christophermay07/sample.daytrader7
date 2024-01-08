@@ -18,7 +18,6 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -38,7 +37,7 @@ public class PingServletCDI extends HttpServlet {
     @Inject
     PingCDIBean cdiBean;
     
-    @EJB
+    @Inject
     PingEJBIFace ejb;
 
     @Override

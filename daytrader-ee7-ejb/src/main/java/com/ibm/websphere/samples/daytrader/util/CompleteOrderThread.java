@@ -15,10 +15,11 @@
  */
 package com.ibm.websphere.samples.daytrader.util;
 
-import jakarta.ejb.EJBException;
 import jakarta.inject.Inject;
 import javax.naming.InitialContext;
 import jakarta.transaction.UserTransaction;
+
+import org.hibernate.TransactionException;
 
 import com.ibm.websphere.samples.daytrader.TradeServices;
 import com.ibm.websphere.samples.daytrader.direct.TradeDirect;
@@ -68,9 +69,9 @@ public class CompleteOrderThread implements Runnable {
                 try {
                     ut.rollback();
                 } catch (Exception e1) {
-                    throw new EJBException(e1);
+                    throw new TransactionException(e1.getMessage(), e);
                 } 
-                throw new EJBException(e);
+                throw new TransactionException(e.getMessage(), e);
             } 
         }
 }

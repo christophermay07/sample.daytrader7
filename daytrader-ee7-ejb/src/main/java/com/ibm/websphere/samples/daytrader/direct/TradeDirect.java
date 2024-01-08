@@ -33,6 +33,8 @@ import jakarta.jms.JMSException;
 import jakarta.jms.Queue;
 import jakarta.jms.TextMessage;
 import jakarta.jms.Topic;
+import jakarta.persistence.EntityNotFoundException;
+
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
@@ -1423,7 +1425,7 @@ public class TradeDirect implements TradeServices {
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
                 Log.error("TradeDirect:login -- failure to find account for" + userID);
-                throw new jakarta.ejb.FinderException("Cannot find account for" + userID);
+                throw new EntityNotFoundException("Cannot find account for" + userID);
             }
 
             String pw = rs.getString("passwd");

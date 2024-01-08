@@ -17,7 +17,6 @@ package com.ibm.websphere.samples.daytrader.ejb3;
 
 import jakarta.annotation.Resource;
 import jakarta.ejb.ActivationConfigProperty;
-import jakarta.ejb.EJB;
 import jakarta.ejb.MessageDriven;
 import jakarta.ejb.MessageDrivenContext;
 import jakarta.ejb.TransactionAttribute;

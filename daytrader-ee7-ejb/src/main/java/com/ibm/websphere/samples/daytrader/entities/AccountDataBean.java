@@ -21,7 +21,8 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
-import jakarta.ejb.EJBException;
+import javax.security.auth.login.FailedLoginException;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -240,12 +241,12 @@ public class AccountDataBean implements Serializable {
         this.profile = profile;
     }
 
-    public void login(String password) {
+    public void login(String password) throws FailedLoginException {
         AccountProfileDataBean profile = getProfile();
         if ((profile == null) || (profile.getPassword().equals(password) == false)) {
             String error = "AccountBean:Login failure for account: " + getAccountID()
                     + ((profile == null) ? "null AccountProfile" : "\n\tIncorrect password-->" + profile.getUserID() + ":" + profile.getPassword());
-            throw new EJBException(error);
+            throw new FailedLoginException(error);
         }
 
         setLastLogin(new Timestamp(System.currentTimeMillis()));

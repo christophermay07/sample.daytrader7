@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -265,7 +266,7 @@ public class TradeServletAction {
             // exception but would invalidate a automation run
             Log.error("TradeServletAction.doHome(...)" + "illegal argument, information should be in exception string"
                     + "treating this as a user error and forwarding on to a new page", e);
-        } catch (jakarta.ejb.FinderException e) {
+        } catch (EntityNotFoundException e) {
             // this is a user error so I will
             // forward them to another page rather than throw a 500
             req.setAttribute("results", results + "\nCould not find account for + " + userID);
