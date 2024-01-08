@@ -31,6 +31,10 @@ public class CompleteOrderThread implements Runnable {
         @Inject
         TradeSLSBBean tradeSLSBBean;
 
+        // TODO (chmay): Can't inject here, but out of scope for current commit.
+        @Inject
+        TradeDirect tradeDirect;
+
         final Integer orderID;
         boolean twoPhase;
         
@@ -55,10 +59,12 @@ public class CompleteOrderThread implements Runnable {
                 
                 ut.begin();
                 
+                // TODO (chmay): this is ugly, but also the closest "direct" translation.
+                // TODO (chmay): this paradigm is used in MULTUPLE placesl review what should be done here.
                 if (TradeConfig.getRunTimeMode() == TradeConfig.EJB3) {
                     trade = tradeSLSBBean;
                 } else {
-                    trade = new TradeDirect(); 
+                    trade = tradeDirect;
                 }
                 
                 trade.completeOrder(orderID, twoPhase);

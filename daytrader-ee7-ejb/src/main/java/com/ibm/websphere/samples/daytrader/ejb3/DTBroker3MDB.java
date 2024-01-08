@@ -38,7 +38,9 @@ public class DTBroker3MDB implements MessageListener {
     private final MDBStats mdbStats;
     private int statInterval = 10000;
 
-    
+    @Inject
+    TradeDirect tradeDirect;
+
     // TODO: Using local interface, make it configurable to use remote?
     @Inject
     TradeSLSBBean tradeSLSBBean;
@@ -142,9 +144,11 @@ public class DTBroker3MDB implements MessageListener {
     }
 
     private TradeServices getTrade(boolean direct) throws Exception {
+        // TODO (chmay): this is ugly, but also the closest "direct" translation.
+        // TODO (chmay): this paradigm is used in MULTUPLE placesl review what should be done here.
         TradeServices trade;
         if (direct) {
-            trade = new TradeDirect();
+            trade = tradeDirect;
         } else {
             trade = tradeSLSBBean;
         }

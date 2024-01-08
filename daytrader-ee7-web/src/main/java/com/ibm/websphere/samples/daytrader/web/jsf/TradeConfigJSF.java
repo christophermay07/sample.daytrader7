@@ -35,6 +35,9 @@ public class TradeConfigJSF {
     @Inject
     private ExternalContext facesExternalContext;
 
+    @Inject
+    TradeDirect tradeDirect;
+
     private String runtimeMode = TradeConfig.runTimeModeNames[TradeConfig.getRunTimeMode()];
     private String orderProcessingMode = TradeConfig.orderProcessingModeNames[TradeConfig.getOrderProcessingMode()];
     //private String cachingType = TradeConfig.cachingTypeNames[TradeConfig.getCachingType()];
@@ -215,9 +218,6 @@ public class TradeConfigJSF {
 
     public String buildDatabaseTables() {
         try {
-
-            //Find out the Database being used
-            TradeDirect tradeDirect = new TradeDirect();
 
             String dbProductName = null;
             try {

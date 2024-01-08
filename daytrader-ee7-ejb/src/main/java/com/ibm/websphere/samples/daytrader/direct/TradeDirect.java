@@ -550,7 +550,7 @@ public class TradeDirect implements TradeServices {
         // signify this order for user userID is complete
         // This call does not work here for Sync
         if (TradeConfig.orderProcessingMode != TradeConfig.SYNCH) {
-            TradeAction tradeAction = new TradeAction(this);
+            TradeAction tradeAction = new TradeAction();
             tradeAction.orderCompleted(userID, orderID);
         }
 

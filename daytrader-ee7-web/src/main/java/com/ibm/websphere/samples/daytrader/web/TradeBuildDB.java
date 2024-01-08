@@ -27,6 +27,8 @@ import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;
 import com.ibm.websphere.samples.daytrader.util.Log;
 import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 
+import jakarta.inject.Inject;
+
 /**
  * TradeBuildDB uses operations provided by the TradeApplication to (a) create the Database tables
  * (b)populate a DayTrader database without creating the tables. Specifically, a
@@ -35,6 +37,10 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
  * form "s:xxx", again where xxx represents sequential numbers (e.g. s:1, s:2, etc.)
  */
 public class TradeBuildDB {
+
+    // TODO (chmay): Can't inject here [I think?], but out of scope for current commit.
+    @Inject
+    TradeDirect tradeDirect;
 
     /**
      * Populate a Trade DB using standard out as a log
@@ -51,7 +57,6 @@ public class TradeBuildDB {
         int errorCount = 0; // Give up gracefully after 10 errors
         
         // Build db in direct mode because it is faster
-        TradeDirect tradeDirect = new TradeDirect();
 
         //  TradeStatistics.statisticsEnabled=false;  // disable statistics
         out.println("<HEAD><BR><EM> TradeBuildDB: Building DayTrader Database...</EM><BR> This operation will take several minutes. Please wait...</HEAD>");

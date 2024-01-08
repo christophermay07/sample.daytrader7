@@ -17,6 +17,7 @@ package com.ibm.websphere.samples.daytrader.web;
 
 import java.io.IOException;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,6 +41,9 @@ import com.ibm.websphere.samples.daytrader.util.TradeConfig;
 public class TradeConfigServlet extends HttpServlet {
 
     private static final long serialVersionUID = -1910381529792500095L;
+
+    @Inject
+    TradeDirect tradeDirect;
 
     /**
      * Servlet initialization method.
@@ -296,7 +300,6 @@ public class TradeConfigServlet extends HttpServlet {
                 resp.setContentType("text/html");
 
                 //Find out the Database being used
-                TradeDirect tradeDirect = new TradeDirect();
 
                 String dbProductName = null;
                 try {

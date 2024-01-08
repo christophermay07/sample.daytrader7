@@ -52,9 +52,13 @@ import jakarta.inject.Inject;
  */
 public class TradeAction implements TradeServices {
 
-    // TODO (chmay): Can't inject here, but out of scope for current commit.
+    // TODO (chmay): Can't inject here [I think?], but out of scope for current commit.
     @Inject
     TradeSLSBBean tradeSLSBBean;
+
+    // TODO (chmay): Can't inject here [I think?], but out of scope for current commit.
+    @Inject
+    TradeDirect tradeDirect;
 
 	// This lock is used to serialize market summary operations.
     private static final Integer marketSummaryLock = new Integer(0);
@@ -101,15 +105,12 @@ public class TradeAction implements TradeServices {
     }
 
     private void createTrade() {
+        // TODO (chmay): this is ugly, but also the closest "direct" translation.
+        // TODO (chmay): this paradigm is used in MULTUPLE placesl review what should be done here.
         if (TradeConfig.runTimeMode == TradeConfig.EJB3) {
             trade = tradeSLSBBean;
         } else if (TradeConfig.runTimeMode == TradeConfig.DIRECT) {
-            try {
-                trade = new TradeDirect();
-            } catch (Exception e) {
-                Log.error("TradeAction:TradeAction() Creation of Trade Direct failed\n" + e);
-                e.printStackTrace();
-            }
+            trade = tradeDirect;
         }
     }
 

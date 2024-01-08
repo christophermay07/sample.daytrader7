@@ -17,6 +17,7 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 
 import java.io.IOException;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -46,6 +47,9 @@ public class PingJDBCRead extends HttpServlet {
     private static final long serialVersionUID = -8810390150632488526L;
     private static String initTime;
     private static int hitCount;
+
+    @Inject
+    TradeDirect trade;
 
     /**
      * forwards post requests to the doGet method Creation date: (11/6/2000
@@ -80,7 +84,6 @@ public class PingJDBCRead extends HttpServlet {
         try {
             // TradeJDBC uses prepared statements so I am going to make use of
             // it's code.
-            TradeDirect trade = new TradeDirect();
             symbol = TradeConfig.rndSymbol();
 
             QuoteDataBean quoteData = null;

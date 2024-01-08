@@ -18,6 +18,7 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -47,6 +48,9 @@ public class PingJDBCWrite extends HttpServlet {
     private static String initTime;
     private static int hitCount;
 
+    @Inject
+    TradeDirect trade;
+
     /**
      * this is the main method of the servlet that will service all get
      * requests.
@@ -72,7 +76,6 @@ public class PingJDBCWrite extends HttpServlet {
 
             // TradeJDBC makes use of prepared statements so I am going to reuse
             // the existing code.
-            TradeDirect trade = new TradeDirect();
 
             // update the price of our symbol
             QuoteDataBean quoteData = null;
