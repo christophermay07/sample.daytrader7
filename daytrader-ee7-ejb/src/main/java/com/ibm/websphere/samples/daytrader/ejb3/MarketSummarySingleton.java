@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Lock;
-import jakarta.ejb.LockType;
 import jakarta.ejb.Schedule;
 import jakarta.ejb.Singleton;
 import jakarta.persistence.EntityManager;
@@ -113,14 +111,14 @@ public class MarketSummarySingleton {
         setMarketSummaryDataBean(new MarketSummaryDataBean(TSIA, openTSIA, totalVolume, topGainers, topLosers));
     }
 
-    @Lock(LockType.READ)
     public MarketSummaryDataBean getMarketSummaryDataBean() {       
         return marketSummaryDataBean;
     }
 
-    @Lock(LockType.WRITE)
     public void setMarketSummaryDataBean(MarketSummaryDataBean marketSummaryDataBean) {
-        this.marketSummaryDataBean = marketSummaryDataBean;
+        synchronized (this) {
+            this.marketSummaryDataBean = marketSummaryDataBean;
+        }
     }
 
 }
