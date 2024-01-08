@@ -28,7 +28,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
-import jakarta.ejb.SessionContext;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.ejb.TransactionManagement;
@@ -103,9 +102,6 @@ public class TradeSLSBBean implements TradeServices {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Resource
-    private SessionContext context;
-    
     @EJB
     MarketSummarySingleton marketSummarySingleton;
 
