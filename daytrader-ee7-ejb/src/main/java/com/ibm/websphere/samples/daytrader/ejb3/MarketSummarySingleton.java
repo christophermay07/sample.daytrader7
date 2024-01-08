@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Schedule;
-import jakarta.ejb.Singleton;
+import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -34,6 +33,8 @@ import com.ibm.websphere.samples.daytrader.entities.QuoteDataBean;
 import com.ibm.websphere.samples.daytrader.util.FinancialUtils;
 import com.ibm.websphere.samples.daytrader.util.Log;
 import com.ibm.websphere.samples.daytrader.util.TradeConfig;
+
+import io.quarkus.scheduler.Scheduled;
 
 @Singleton
 public class MarketSummarySingleton {
@@ -49,8 +50,8 @@ public class MarketSummarySingleton {
     }
     
     /* Update Market Summary every 20 seconds */
-    @Schedule(second = "*/20",minute = "*", hour = "*", persistent = false)
-    private void updateMarketSummary() { 
+    @Scheduled(every = "20s")
+    void updateMarketSummary() { 
         
         if (Log.doTrace()) {
             Log.trace("MarketSummarySingleton:updateMarketSummary -- updating market summary");
