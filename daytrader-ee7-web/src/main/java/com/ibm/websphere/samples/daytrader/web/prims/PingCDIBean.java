@@ -20,7 +20,6 @@ import java.util.Set;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import javax.naming.InitialContext;
 
@@ -32,7 +31,6 @@ public class PingCDIBean {
     BeanManager beanManager;
 
     private static int helloHitCount = 0;
-    private static int getBeanManagerHitCountJNDI = 0;
     private static int getBeanManagerHitCountSPI = 0;
 
     
@@ -40,16 +38,6 @@ public class PingCDIBean {
         return ++helloHitCount;
     }
 
-    public int getBeanMangerViaJNDI() throws Exception {
-        BeanManager beanManager = (BeanManager) new InitialContext().lookup("java:comp/BeanManager");
-        Set<Bean<?>> beans = beanManager.getBeans(Object.class);
-        if (beans.size() > 0) {
-            return ++getBeanManagerHitCountJNDI;
-        }
-        return 0;
-
-    }
-    
     public int getBeanMangerViaCDICurrent() throws Exception {
         Set<Bean<?>> beans = beanManager.getBeans(Object.class);
         
