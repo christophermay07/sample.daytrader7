@@ -21,7 +21,6 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.inject.Inject;
-import javax.naming.InitialContext;
 
 @RequestScoped
 @PingInterceptorBinding

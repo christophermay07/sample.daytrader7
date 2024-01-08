@@ -18,8 +18,6 @@ package com.ibm.websphere.samples.daytrader.web.prims;
 
 import java.io.IOException;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.EndpointConfig;
 import jakarta.websocket.OnClose;

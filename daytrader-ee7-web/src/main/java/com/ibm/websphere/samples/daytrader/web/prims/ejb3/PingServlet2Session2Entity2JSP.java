@@ -17,7 +17,6 @@ package com.ibm.websphere.samples.daytrader.web.prims.ejb3;
 
 import java.io.IOException;
 
-import javax.naming.InitialContext;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
