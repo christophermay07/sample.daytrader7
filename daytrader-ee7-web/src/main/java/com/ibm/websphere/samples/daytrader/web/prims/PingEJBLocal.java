@@ -15,14 +15,13 @@
  */
 package com.ibm.websphere.samples.daytrader.web.prims;
 
-import jakarta.ejb.Local;
-import jakarta.ejb.Stateful;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  *
  */
-@Stateful
-@Local
+// TODO (chmay): Is this really the best replacement scope?
+@ApplicationScoped
 public class PingEJBLocal implements PingEJBIFace {
 
     private static int hitCount;
