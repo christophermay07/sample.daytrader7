@@ -29,10 +29,6 @@ import org.hibernate.TransactionException;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.ejb.TransactionManagement;
-import jakarta.ejb.TransactionManagementType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.jms.JMSException;
@@ -51,6 +47,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.RollbackException;
 import jakarta.transaction.Transactional;
+import static jakarta.transaction.Transactional.TxType;
 
 import com.ibm.websphere.samples.daytrader.TradeAction;
 import com.ibm.websphere.samples.daytrader.TradeServices;
@@ -608,7 +605,7 @@ public class TradeSLSBBean implements TradeServices {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    @Transactional(TxType.NOT_SUPPORTED)
     public RunStatsDataBean resetTrade(boolean deleteAll) throws Exception {
         if (Log.doTrace()) {
             Log.trace("TradeSLSBBean:resetTrade", deleteAll);
@@ -617,7 +614,7 @@ public class TradeSLSBBean implements TradeServices {
         return new com.ibm.websphere.samples.daytrader.direct.TradeDirect(false).resetTrade(deleteAll);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @Transactional(TxType.REQUIRES_NEW)
     public void publishQuotePriceChange(QuoteDataBean quote, BigDecimal oldPrice, BigDecimal changeFactor, double sharesTraded) throws JMSException {
         if (!TradeConfig.getPublishQuotePriceChange()) {
             return;
